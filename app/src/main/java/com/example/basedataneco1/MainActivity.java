@@ -53,22 +53,28 @@ public class MainActivity extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference("ImageDB");
     }
 
-
-    public void onClickSave(View view)
+    private void saveUser()
     {
-        String id = mDataBase.getKey();
+        String id = mDataBase.push().getKey();
         String name = edName.getText().toString();
         String sec_name = edSecName.getText().toString();
         String email = edEmail.getText().toString();
-         User newUser = new User(id, name, sec_name, email);
-         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(sec_name) && !TextUtils.isEmpty(email))
-         {
-             mDataBase.push().setValue(newUser);
-         }
-         else
-         {
-             Toast.makeText(this, "Пустое поле", Toast.LENGTH_SHORT).show();
-         }
+        User newUser = new User(id, name, sec_name, email, uploadUri.toString());
+        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(sec_name) && !TextUtils.isEmpty(email))
+        {
+            if (id != null) mDataBase.child(id).setValue(newUser);
+            Toast.makeText(this, "Сохранено", Toast.LENGTH_SHORT);
+
+        }
+        else
+        {
+            Toast.makeText(this, "Пустое поле", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void onClickSave(View view)
+    {
+        uploadImage();
 
 
     }
@@ -94,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 Log.d("My Log", "Image URI: " + data.getData());
                 imImage.setImageURI(data.getData());
-                uploadImage();
+               // uploadImage();
 
             }
         }
@@ -128,10 +134,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 uploadUri = task.getResult();
+                saveUser();
                 Log.d("My Log", "Картинка добавилась");
-
 
             }
         });
     }
+
+
 }

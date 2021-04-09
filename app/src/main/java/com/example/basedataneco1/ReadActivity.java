@@ -85,6 +85,7 @@ public class ReadActivity extends AppCompatActivity {
                 i.putExtra("user_name", user.name);
                 i.putExtra("user_sec_name", user.sec_name);
                 i.putExtra("user_email", user.email);
+                i.putExtra("user_image_id", user.image_id);
                 startActivity(i);
             }
         });

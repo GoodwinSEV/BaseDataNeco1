@@ -2,13 +2,17 @@ package com.example.basedataneco1;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.squareup.picasso.Picasso;
+
 public class Show_Activity extends AppCompatActivity {
     private TextView tvName, tvSecondName, tvEmail;
+    private ImageView imBD;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -20,14 +24,17 @@ public class Show_Activity extends AppCompatActivity {
 
     private void init()
     {
-        tvName = findViewById(R.id.tvName);
+        imBD = findViewById(R.id.imBD);
+        tvName = findViewById(R.id.tvUserName);
         tvSecondName = findViewById(R.id.tvSecond_Name);
-        tvEmail = findViewById(R.id.tvUserName);
+        tvEmail = findViewById(R.id.tvEmail);
     }
 
     private void getIntentMain () {
         Intent i = getIntent();
-        if (i != null) {
+        if (i != null)
+        {
+            Picasso.get().load(i.getStringExtra("user_image_id")).into(imBD);
             tvName.setText(i.getStringExtra("user_name"));
             tvSecondName.setText(i.getStringExtra("user_sec_name"));
             tvEmail.setText(i.getStringExtra("user_email"));
